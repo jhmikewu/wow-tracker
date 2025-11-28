@@ -1,0 +1,18 @@
+services:
+  wow-tracker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: wow-tracker
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      # Persist the database file outside the container
+      - /mnt/user/appdata/wow-tracker/db:/app/db
+    environment:
+      # Point to the mounted volume for the DB
+      - DATABASE_URL=file:/app/db/prod.db
+      - NEXTAUTH_URL=http://localhost:3000
+      # CHANGE THIS to a random long string!
+      - NEXTAUTH_SECRET=change_me_to_something_random

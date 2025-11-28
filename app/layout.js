@@ -4,6 +4,9 @@ import { Providers } from "./providers";
 export const metadata = {
   title: 'WoW Tracker',
   description: 'Track your mythic plus progress',
+  icons: {
+    icon: '/favicon.ico',
+  },
 }
 
 export default function RootLayout({ children }) {

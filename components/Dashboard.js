@@ -148,12 +148,24 @@ export default function Dashboard({ characters, onDelete, theme }) {
                                         onDragOver={(e) => handleDragOver(e, index)}
                                     >
                                         <div className={`font-bold truncate text-[11px] ${rio ? getClassColor(rio.class) : theme.textDim}`}>
-                                            {rio ? rio.name : char.name}
+                                            {rio ? (
+                                                <a 
+                                                    href={rio.profile_url} 
+                                                    target="_blank" 
+                                                    rel="noopener noreferrer" 
+                                                    className="hover:underline"
+                                                >
+                                                    {rio.name}
+                                                </a>
+                                            ) : char.name}
                                         </div>
                                         {rio && (
                                             <div className={`text-[10px] ${theme.textDim} font-normal leading-tight mt-0.5`}>
                                                 {rio.gear.item_level_equipped} <br/>
                                                 <span className="text-purple-500 font-bold">{rio.mythic_plus_scores_by_season[0].scores.all}</span>
+                                                <div className="text-[9px] text-gray-500 mt-0.5 opacity-75" title={`Last updated: ${new Date(rio.last_crawled_at).toLocaleString()}`}>
+                                                    {timeAgo(rio.last_crawled_at)}
+                                                </div>
                                             </div>
                                         )}
                                         <button 
@@ -291,4 +303,29 @@ function getQualityBorder(quality) {
     if (quality === 4) return 'border-[#a335ee]'; 
     if (quality === 3) return 'border-[#0070dd]'; 
     return 'border-[#9d9d9d]'; 
+}
+
+function timeAgo(dateString) {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return '';
+
+    const now = new Date();
+    const seconds = Math.floor((now - date) / 1000);
+    
+    if (seconds < 60) return 'just now';
+    
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes}m ago`;
+    
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h ago`;
+    
+    const days = Math.floor(hours / 24);
+    if (days < 30) return `${days}d ago`;
+    
+    const months = Math.floor(days / 30);
+    if (months < 12) return `${months}mo ago`;
+    
+    return `${Math.floor(days / 365)}y ago`;
 }

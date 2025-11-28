@@ -96,7 +96,7 @@ export default function Home() {
             >
                 <div className="w-6 h-6 flex items-center justify-center">
                     {currentThemeKey === 'dark' ? (
-                        <img src="https://www.svgrepo.com/show/503805/sun.svg" alt="Sun" className="w-5 h-5 invert" />
+                        <img src="https://www.svgrepo.com/show/503805/sun.svg" alt="Sun" className="w-5 h-5" />
                     ) : (
                         <img src="https://www.svgrepo.com/show/528415/moon.svg" alt="Moon" className="w-5 h-5" />
                     )}
