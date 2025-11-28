@@ -86,7 +86,6 @@ export default function Home() {
       <div className={`${theme.panel} p-4 border-b ${theme.border} sticky top-0 z-50 shadow-md flex justify-between items-center h-16 transition-colors duration-300 min-w-full`}>
         <div className="flex items-center gap-4">
              <h1 className={`text-xl font-bold ${theme.text} pl-2`}>WoW Tracker</h1>
-             <span className={`text-xs ${theme.textDim}`}>User: {session.user.name}</span>
         </div>
         
         <div className="flex gap-4 items-center">

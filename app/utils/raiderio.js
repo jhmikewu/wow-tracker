@@ -1,17 +1,19 @@
 export async function getCharacterData(region, realm, name) {
-  const safeRealm = encodeURIComponent(realm);
-  const safeName = encodeURIComponent(name);
-  // access_key=RIOBuCmQCQvA5awe9CRuZV6VT
-  const url = `https://raider.io/api/v1/characters/profile?region=${region}&realm=${safeRealm}&name=${safeName}&fields=gear,mythic_plus_scores_by_season:current,mythic_plus_best_runs`;
-  
-  console.log("Fetching RaiderIO URL:", url); // <--- DEBUG LOG
+    // CRITICAL FIX: Encode URI components to handle spaces (Grim Batol) and special chars (Lovelì)
+    const safeName = encodeURIComponent(name);
+    const safeRealm = encodeURIComponent(realm);
 
-  const response = await fetch(url);
-  
-  if (!response.ok) {
-    console.log("RaiderIO Error Status:", response.status); // <--- DEBUG LOG
-    return null; 
-  }
-  
-  return response.json();
+    const url = `https://raider.io/api/v1/characters/profile?region=${region}&realm=${safeRealm}&name=${safeName}&fields=gear,mythic_plus_scores_by_season:current,mythic_plus_best_runs`;
+
+    try {
+        const res = await fetch(url);
+        if (!res.ok) {
+            console.error(`Failed to fetch data for ${name}: ${res.status} ${res.statusText}`);
+            return null;
+        }
+        return await res.json();
+    } catch (error) {
+        console.error("Error fetching Raider.IO data:", error);
+        return null;
+    }
 }
