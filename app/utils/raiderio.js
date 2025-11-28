@@ -1,11 +1,16 @@
 export async function getCharacterData(region, realm, name) {
-  // We default to US if not provided, but the UI will provide it
-  const url = `https://raider.io/api/v1/characters/profile?access_key=RIOBuCmQCQvA5awe9CRuZV6VT&region=${region}&realm=${realm}&name=${name}&fields=gear,mythic_plus_scores_by_season:current&fields=gear,mythic_plus_scores_by_season:current,mythic_plus_best_runs`;
+  const safeRealm = encodeURIComponent(realm);
+  const safeName = encodeURIComponent(name);
+  // access_key=RIOBuCmQCQvA5awe9CRuZV6VT
+  const url = `https://raider.io/api/v1/characters/profile?region=${region}&realm=${safeRealm}&name=${safeName}&fields=gear,mythic_plus_scores_by_season:current,mythic_plus_best_runs`;
   
+  console.log("Fetching RaiderIO URL:", url); // <--- DEBUG LOG
+
   const response = await fetch(url);
   
   if (!response.ok) {
-    return null; // Character not found or API error
+    console.log("RaiderIO Error Status:", response.status); // <--- DEBUG LOG
+    return null; 
   }
   
   return response.json();
