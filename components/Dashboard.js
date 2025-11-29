@@ -24,14 +24,14 @@ const GEAR_SLOTS = [
 ];
 
 const DUNGEONS = [
-    { name: "Tazavesh: So'leah's Gambit", abbr: "GMBT", icon: "achievement_dungeon_brokerdungeon" },
-    { name: "Eco-Dome Al'dani",         abbr: "ECO",  icon: "inv_112_achievement_dungeon_ecodome" }, 
-    { name: "Halls of Atonement",       abbr: "HOA",  icon: "achievement_dungeon_hallsofattonement" },
-    { name: "The Dawnbreaker",          abbr: "DAWN", icon: "inv_achievement_dungeon_dawnbreaker" }, 
-    { name: "Ara-Kara, City of Echoes", abbr: "ARAK",  icon: "inv_achievement_dungeon_arak-ara" }, 
-    { name: "Operation: Floodgate",     abbr: "FLOOD",  icon: "inv_achievement_dungeon_waterworks" }, 
-    { name: "Priory of the Sacred Flame",abbr: "PRIORY",  icon: "inv_achievement_dungeon_prioryofthesacredflame" }, 
-    { name: "Tazavesh: Streets of Wonder",abbr: "STRT", icon: "achievement_dungeon_brokerdungeon" }
+    { name: "Tazavesh: So'leah's Gambit", abbr: "GMBT", icon: "achievement_dungeon_brokerdungeon", id: 112442 },
+    { name: "Eco-Dome Al'dani",         abbr: "ECO",  icon: "inv_112_achievement_dungeon_ecodome", id: 12830 }, 
+    { name: "Halls of Atonement",       abbr: "HOA",  icon: "achievement_dungeon_hallsofattonement", id: 62287 },
+    { name: "The Dawnbreaker",          abbr: "DAWN", icon: "inv_achievement_dungeon_dawnbreaker", id: 62662 }, 
+    { name: "Ara-Kara, City of Echoes", abbr: "ARAK",  icon: "inv_achievement_dungeon_arak-ara", id: 62660 }, 
+    { name: "Operation: Floodgate",     abbr: "FLOOD",  icon: "inv_achievement_dungeon_waterworks", id: 62773 }, 
+    { name: "Priory of the Sacred Flame",abbr: "PRIORY",  icon: "inv_achievement_dungeon_prioryofthesacredflame", id: 62649 }, 
+    { name: "Tazavesh: Streets of Wonder",abbr: "STRT", icon: "achievement_dungeon_brokerdungeon", id: 112441 }
 ];
 
 export default function Dashboard({ characters, onDelete, theme }) {
@@ -256,7 +256,7 @@ export default function Dashboard({ characters, onDelete, theme }) {
                                         <td key={char.id} className={`border-l ${theme.border} text-center ${theme.panel} p-0`}>
                                             <div className="flex flex-col justify-center h-full">
                                                 <a 
-                                                    href={run.url} 
+                                                    href={getWarcraftLogsUrl(char.region, char.realm, char.name, dungeon.id)} 
                                                     target="_blank" 
                                                     rel="noopener noreferrer"
                                                     className="flex flex-col justify-center w-full h-full"
@@ -328,4 +328,10 @@ function timeAgo(dateString) {
     if (months < 12) return `${months}mo ago`;
     
     return `${Math.floor(days / 365)}y ago`;
+}
+
+function getWarcraftLogsUrl(region, realm, name, dungeonId) {
+    const slugRealm = realm.toLowerCase().replace(/\s+/g, '-');
+    const encodedName = encodeURIComponent(name);
+    return `https://www.warcraftlogs.com/character/${region}/${slugRealm}/${encodedName}?zone=45&boss=${dungeonId}`;
 }
